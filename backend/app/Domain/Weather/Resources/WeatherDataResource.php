@@ -34,35 +34,16 @@ class WeatherDataResource extends JsonResource
 
         return [
             'city' => [
-                'name' => 'Vilnius',
-                'location' => [
-                    'lat' => 0,
-                    'lon' => 0,
-                ]
+                'name' => $this->resource->getCityName(),
+                'location' => CoordinatesResource::make($this->resource->getCityCoordinates())
             ],
+
             'temperature' => [
-                'feels_like' => [
-                    'value' => 8,
-                    'units' => [
-                        'name' => 'celsius',
-                        'symbol' => 'C',
-                    ]
-                ],
-                'current' => [
-                    'value' => 13,
-                    'units' => [
-                        'name' => 'celsius',
-                        'symbol' => 'C',
-                    ]
-                ]
+                'feels_like' => TemperatureResource::make($this->resource->getFeelsLike()),
+                'current' => TemperatureResource::make($this->resource->getCurrentTemperature())
             ],
-            'wind_speed' => [
-                'value' => 4.4,
-                'units' => [
-                    'name' => 'meters per second',
-                    'symbol' => 'm/s'
-                ]
-            ]
+
+            'wind_speed' => SpeedResource::make($this->resource->getWindSpeed())
         ];
     }
 }
