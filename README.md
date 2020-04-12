@@ -9,6 +9,7 @@ It is a toy project made just for fun.
 - Git clone this repository.
 - Install dependencies via ```composer install```
 - Create .env by running ```cp .env.example .env```
+- Generate a new application ket ```php artisan key:generate```
 - Serve it with ```php artisan serve```
 - Open http://127.0.0.1:8000 in your favourite web browser!
 
