@@ -4,12 +4,27 @@ namespace App\Domain\Weather\Resources;
 
 use App\Domain\Weather\Interfaces\Units;
 use Illuminate\Http\Resources\Json\JsonResource;
+use OpenApi\Annotations\Property;
+use OpenApi\Annotations\Schema;
 
 /**
  * Class UnitsResource
  * @package App\Domain\Weather\Resources
  *
- * @property Units $resource
+ * @Schema(
+ *     title="UnitsResource",
+ *     description="Measuring units model",
+ *     @Property(
+ *         property="name",
+ *         description="Name of measuring unit",
+ *         type="string",
+ *     ),
+ *     @Property(
+ *         property="symbol",
+ *         description="Symbol of measuring unit",
+ *         type="string",
+ *     ),
+ * )
  */
 class UnitsResource extends JsonResource
 {

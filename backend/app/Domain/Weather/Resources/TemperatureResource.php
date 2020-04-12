@@ -4,12 +4,28 @@ namespace App\Domain\Weather\Resources;
 
 use App\Domain\Weather\Models\Temperature\Temperature;
 use Illuminate\Http\Resources\Json\JsonResource;
+use OpenApi\Annotations\Property;
+use OpenApi\Annotations\Schema;
 
 /**
  * Class TemperatureResource
  * @package App\Domain\Weather\Resources
  *
- * @property Temperature $resource
+ * @Schema(
+ *     title="TemperatureResource",
+ *     description="Temperature model",
+ *     @Property(
+ *         property="value",
+ *         description="Temperature value",
+ *         type="number",
+ *     ),
+ *     @Property(
+ *         property="units",
+ *         description="Measuring units",
+ *         type="object",
+ *         ref="#components/schemas/UnitsResource"
+ *     ),
+ * )
  */
 class TemperatureResource extends JsonResource
 {

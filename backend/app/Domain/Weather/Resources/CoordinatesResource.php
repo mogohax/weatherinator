@@ -4,12 +4,27 @@ namespace App\Domain\Weather\Resources;
 
 use App\Domain\Weather\Models\Coordinates;
 use Illuminate\Http\Resources\Json\JsonResource;
+use OpenApi\Annotations\Property;
+use OpenApi\Annotations\Schema;
 
 /**
  * Class CoordinatesResource
  * @package App\Domain\Weather\Resources
  *
- * @property Coordinates $resource
+ * @Schema(
+ *     title="CoordinatesResource",
+ *     description="Coordiantes model",
+ *     @Property(
+ *         property="lat",
+ *         description="Latitude",
+ *         type="number",
+ *     ),
+ *     @Property(
+ *         property="lon",
+ *         description="Longitude",
+ *         type="number",
+ *     ),
+ * )
  */
 class CoordinatesResource extends JsonResource
 {
