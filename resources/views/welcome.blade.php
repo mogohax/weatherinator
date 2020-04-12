@@ -4,97 +4,98 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+        <title>Weatherinator</title>
 
         <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
+        <link rel="stylesheet" href="{{ asset('/css/app.css') }}">
 
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
     </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
+    <body class="bg-light">
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
+        <div class="container">
+            <div class="py-5 text-center">
+                <img class="d-block mx-auto mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg"
+                     alt="" width="72" height="72">
+                <h2>Weather data</h2>
+                <p class="lead">Below is an example weather application. It interfaces with the backend via ajax calls. Checkout API Docs <a href="/api/documentation">HERE!</a></p>
+            </div>
 
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
+            <div class="row">
+                <div class="offset-md-3 col-md-6 mb-4">
+                    <h4 class="mb-3">City Weather</h4>
+                    <form class="needs-validation" novalidate data-action="load-weather" data-endpoint="{{ route('api.v1.weather.get_weather') }}">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="api_key" placeholder="Your API key" required="required" aria-required="true">
+                            <div class="invalid-feedback">
+                                API key is required
+                            </div>
+                        </div>
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                        <div class="mb-3">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="City name" name="city" required="required" aria-required="true">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-success">
+                                        Check <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                                <div class="invalid-feedback">
+                                    City name is required
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="alert alert-danger js-error-holder" role="alert" style="display: none;">
+                                    This is a danger alert—check it out!
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <ul class="nav nav-tabs js-tabs" id="myTab" role="tablist">
+                    </ul>
+                    <div class="tab-content js-tab-content" id="myTabContent">
+                    </div>
+                </div>
+            </div>
+
+            <footer class="my-5 pt-5 text-muted text-center text-small">
+                <p class="mb-1">&copy; 2020</p>
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="/api/documentation">Docs</a></li>
+                </ul>
+            </footer>
         </div>
+
+        <script src="{{ asset('/js/app.js') }}"></script>
+        <script type="text/template" data-template="tab">
+            <li class="nav-item">
+                <a class="nav-link" id="${title}-tab" data-toggle="tab" href="#${title}" role="tab" aria-controls="${title}" aria-selected="false">${title}</a>
+            </li>
+        </script>
+        <script type="text/template" data-template="tab-content">
+            <div class="tab-pane fade" id="${name}" role="tabpanel" aria-labelledby="home-tab">
+                <dl class="row">
+                    <dt class="col-sm-3">City name</dt>
+                    <dd class="col-sm-9">${name}</dd>
+
+                    <dt class="col-sm-3">Current temperature</dt>
+                    <dd class="col-sm-9">${current_value}${current_units}</dd>
+
+                    <dt class="col-sm-3">Feels like</dt>
+                    <dd class="col-sm-9">${feels_value}${feels_units}</dd>
+
+                    <dt class="col-sm-3">Wind Speed</dt>
+                    <dd class="col-sm-9">${wind_value}${wind_units}</dd>
+                </dl>
+            </div>
+        </script>
     </body>
 </html>
