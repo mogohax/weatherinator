@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Domain\Weather\Providers\OpenWeatherProvider;
 use App\Domain\Weather\Resources\WeatherDataResource;
 use App\Domain\Weather\Services\WeatherDataService;
 use App\Http\Controllers\Api\BaseApiController;
@@ -82,7 +83,7 @@ class WeatherController extends BaseApiController
     {
         $weatherData = $weatherDataService->getWeatherData(
             $request->get('city'),
-            $request->get('provider', 'openweather'),
+            $request->get('provider', OpenWeatherProvider::NAME),
             $request->get('api_key')
         );
 
