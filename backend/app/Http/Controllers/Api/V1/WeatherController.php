@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Domain\Weather\Models\Coordinates;
-use App\Domain\Weather\Models\Speed\Speed;
-use App\Domain\Weather\Models\Temperature\Temperature;
-use App\Domain\Weather\Models\WeatherData;
 use App\Domain\Weather\Resources\WeatherDataResource;
+use App\Domain\Weather\Services\WeatherDataService;
 use App\Http\Controllers\Api\BaseApiController;
 use App\Http\Requests\Api\V1\GetWeatherRequest;
 
@@ -22,17 +19,18 @@ class WeatherController extends BaseApiController
      *
      * @param GetWeatherRequest $request
      *
+     * @param WeatherDataService $weatherDataService
      * @return WeatherDataResource
      * @throws \Assert\AssertionFailedException
      */
-    public function getWeather(GetWeatherRequest $request): WeatherDataResource
+    public function getWeather(GetWeatherRequest $request, WeatherDataService $weatherDataService): WeatherDataResource
     {
-        return new WeatherDataResource(new WeatherData(
-            'Vilnius',
-            Temperature::Celsius(21),
-            Temperature::Celsius(15),
-            Speed::MS(4.1),
-            new Coordinates(0,0)
-        ));
+        $weatherData = $weatherDataService->getWeatherData(
+            $request->get('city'),
+            $request->get('provider', 'random'), // @TODO unhardcode openweather
+            $request->get('api_key')
+        );
+
+        return new WeatherDataResource($weatherData);
     }
 }
