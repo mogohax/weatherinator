@@ -6,10 +6,12 @@ use App\Domain\Weather\Resources\WeatherDataResource;
 use App\Domain\Weather\Services\WeatherDataService;
 use App\Http\Controllers\Api\BaseApiController;
 use App\Http\Requests\Api\V1\GetWeatherRequest;
+use OpenApi\Annotations\AdditionalProperties;
 use OpenApi\Annotations\Get;
+use OpenApi\Annotations\Items;
 use OpenApi\Annotations\JsonContent;
 use OpenApi\Annotations\Parameter;
-use OpenApi\Annotations\RequestBody;
+use OpenApi\Annotations\Property;
 use OpenApi\Annotations\Response;
 use OpenApi\Annotations\Schema;
 use OpenApi\Annotations\Tag;
@@ -59,6 +61,14 @@ class WeatherController extends BaseApiController
      *         response="200",
      *         description="Successful Response",
      *         @JsonContent(ref="#components/schemas/WeatherDataResource")
+     *     ),
+     *     @Response(
+     *         response="422",
+     *         description="Validation errors",
+     *         @JsonContent(
+     *             @Property(property="message", type="string"),
+     *             @Property(property="errors", type="array", @Items(@AdditionalProperties()))
+     *         )
      *     )
      * )
      *
