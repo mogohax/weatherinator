@@ -27,7 +27,7 @@ class WeatherController extends BaseApiController
     {
         $weatherData = $weatherDataService->getWeatherData(
             $request->get('city'),
-            $request->get('provider', 'random'), // @TODO unhardcode openweather
+            $request->get('provider', 'openweather'),
             $request->get('api_key')
         );
 

@@ -4,6 +4,7 @@ namespace Tests\Unit\Domain\Weather\Factories;
 
 use App\Domain\Weather\Exceptions\WeatherProviderNotFoundException;
 use App\Domain\Weather\Factories\WeatherProviderFactory;
+use App\Domain\Weather\Providers\OpenWeatherProvider;
 use App\Domain\Weather\Providers\RandomWeatherProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -26,6 +27,20 @@ class WeatherProviderFactoryTest extends TestCase
 
         $this->assertInstanceOf(
             RandomWeatherProvider::class,
+            $provider
+        );
+    }
+
+    /**
+     * @test
+     * @covers WeatherProviderFactory::make
+     */
+    public function can_create_openmap_weather_provider()
+    {
+        $provider = $this->weatherFactory->make(OpenWeatherProvider::NAME);
+
+        $this->assertInstanceOf(
+            OpenWeatherProvider::class,
             $provider
         );
     }
